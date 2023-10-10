@@ -51,14 +51,14 @@ class CSVSearchApp(QMainWindow):
         searchButton = QPushButton('Search')  # Search button
         widgetLayout.addWidget(searchButton)  # Add search button to the layout
 
-        # Create a QListWidget widget to display search results
+        # Create a QListWidget view to display search results
         self.resultsDisplay = QListWidget()
         widgetLayout.addWidget(self.resultsDisplay)  # Add widget in the layout
 
         # Create a dropdown menu that allows users to select sorting category from a list of options
-        sortingDropDown = QComboBox()
-        sortingDropDown.addItems(['Ascending', 'Descending'])  # Sort search results in ascending and descending order
-        widgetLayout.addWidget(sortingDropDown)                # Add widget to the layout
+        self.sortingDropDown = QComboBox()
+        self.sortingDropDown.addItems(['Ascending', 'Descending'])  # Sort search results in ascending and descending order
+        widgetLayout.addWidget(self.sortingDropDown)                # Add widget to the layout
 
         # Add filter input field
         self.filterInputField = QLineEdit()            # Input field
@@ -71,9 +71,11 @@ class CSVSearchApp(QMainWindow):
         # Connect the search button click event to the search function
         searchButton.clicked.connect(self.performSearch) 
 
-        # Connect sorting and filtering controls to functions
-        sortingDropDown.currentIndexChanged.connect(self.handleSorting)
+        # Connect the filter button click event to the handle filter function 
         filterButton.clicked.connect(self.handleFilter)
+
+        # Connect sorting and filtering controls to functions
+        self.sortingDropDown.currentIndexChanged.connect(self.handleSorting)
 
         # Create and set up the main widget
         centralWidget = QWidget()
@@ -82,6 +84,7 @@ class CSVSearchApp(QMainWindow):
         self.setCentralWidget(centralWidget)
 
     def performSearch(self):
+        """Performs a search operation based on user input and displays the results in the QListWidget view."""
         searchKeyword = self.keywordInput.text().strip()   # Extract text from the keyword input search box
         columnsToSearch = self.columnInput.text()          # Extract text from the column input search box
 
@@ -99,9 +102,25 @@ class CSVSearchApp(QMainWindow):
                 self.resultsDisplay.addItem(item)  # Add each item in the QListWidget view
 
     def handleSorting(self):
-        # Implement sorting logic based on the user's selection
+        """Implement sorting logic based on the user's selection"""
         # Update the displayed data accordingly
-        pass
+        sortingOrder = self.sortingDropDown.currentText()  # Get text from the combo box
+
+        # Get the current search results from the QListWidget view
+        currentResults = [self.resultsDisplay.item(i).text() for i in range(self.resultsDisplay.count())]
+
+        if sortingOrder == 'Ascending':           
+            currentResults.sort()                 # Ascending by default
+        elif sortingOrder == 'Descending':
+            currentResults.sort(reverse=True)     # 'reverse=True' makes it descending
+
+        # Clear the current results in the QListWidget view to show sorting results
+        self.resultsDisplay.clear()
+
+        # Display the sorted results in the QListWidget view
+        for result in currentResults:             # For every result stored in the results variable 
+            item = QListWidgetItem(result)        # Create an item object for each result stored in the result variable 
+            self.resultsDisplay.addItem(item)     # Add each item in the QListWidget view
 
     def handleFilter(self):
         filter_criteria = self.filterInputField.text()
