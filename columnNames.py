@@ -7,8 +7,12 @@
 import os
 import csv
 
+ROOTDIR = '.\\'
+FOLDER = 'csvFolder'
+FILE = 'anime.csv'
+
 # Define the file location of the CSV file to be read
-fileLocation = os.path.join('csvFolder', 'anime.csv')
+fileLocation = os.path.join(ROOTDIR, FOLDER, FILE)
 
 # Open the CSV file for reading with specified encoding
 with open(fileLocation, 'r', encoding='utf-8') as file:
