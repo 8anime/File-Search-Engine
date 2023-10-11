@@ -2,10 +2,14 @@
 import csv
 import os
 
+ROOTDIR = '.\\'
+FOLDER = 'csvFolder'
+FILE = 'anime.csv'
+
+fileLocation = os.path.join(ROOTDIR, FOLDER, FILE)
+
 def searchCsvFile(keyword, column, sortingOrder='ascending'):
     """Search for data from the csv file"""
-    fileLocation = os.path.join('csvFolder', 'anime.csv')
-
     matchingData = []  # Stores returned values from the csv
 
     with open(fileLocation, 'r', encoding='utf-8') as file:
