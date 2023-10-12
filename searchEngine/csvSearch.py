@@ -2,11 +2,12 @@
 import csv
 import os
 
-ROOTDIR = '.\\'
-FOLDER = 'csvFolder'
-FILE = 'anime.csv'
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))  # Obtain the directory in which the 'csvSearch.py' is located
+ROOTDIR = os.path.dirname(SCRIPT_DIR)                    # Obtain the directory of searchEngine folder
+CSV_FOLDER = 'csvFolder'                                 # Name of directory containing the csv files to be read from
+FILE = 'anime.csv'                                       # Name of the file to read from
 
-fileLocation = os.path.join(ROOTDIR, FOLDER, FILE)
+fileLocation = os.path.join(ROOTDIR, CSV_FOLDER, FILE)
 
 def searchCsvFile(keyword, column, sortingOrder='ascending'):
     """Search for data from the csv file"""
